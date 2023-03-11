@@ -1,0 +1,186 @@
+openapi: 3.0.0
+info:
+  title: API WA-AUTOVENOM
+  version: 1.0.8
+  description: API de utilização da automatização de whatsapp.
+
+paths:
+  /api/webhook:
+    get:
+      description: A fake webhook to print what is received<p>This is util only in console mode.</p>
+      responses:
+        "200":
+          description: ok
+      tags:
+        - "Tests"
+  /api/sendText:
+    post:
+      tags:
+        - "Sends"
+      description: >-
+        Sends a WhatsApp message with the specified content to the specified
+        phone number.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                args:
+                  type: object
+                  properties:
+                    to:
+                      type: string
+                      example: 0000000000000@c.us or 00000000000-111111111@g.us
+                    content:
+                      type: string
+                  required:
+                    - to
+                    - content
+      responses:
+        "200":
+          description: >-
+            Returns an object indicating the success of the message sending
+            operation.
+        "404":
+          description: >-
+            Returns an object indicating the fail of the message sending
+            operation.
+  /api/sendFile:
+    post:
+      tags:
+        - "Sends"
+      description: Sends a file as a WhatsApp message to the specified phone number.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                args:
+                  type: object
+                  properties:
+                    to:
+                      type: string
+                      example: 0000000000000@c.us or 00000000000-111111111@g.us
+                    filename:
+                      type: string
+                      example: file.pdf
+                    file:
+                      type: string
+                      example: base64 or url
+                  required:
+                    - to
+                    - filename
+                    - file
+      responses:
+        "200":
+          description: >-
+            Returns an object indicating the success of the message sending
+            operation.
+        "400":
+          description: >-
+            Bad Request - Parameters required were not sent. Please verify if
+            all mandatory parameters were included in the request body.
+  /api/sendMenuList:
+    description: Sends menu list
+    post:
+      summary: Send List menu
+      description: Send List menu. <br><br> This function does not work for Bussines contacts!
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                to:
+                  type: string
+                  example: 0000000000000@c.us or 00000000000-111111111@g.us
+                title:
+                  type: string
+                  example: Main menu
+                description:
+                  type: string
+                  example: Select to what you need help on the menu.
+                buttonText:
+                  type: string
+                  example: Menu list
+                menu:
+                  type: array
+                  example:
+                    [
+                      {
+                        title: "Section 1",
+                        rows:
+                          [
+                            {
+                              rowId: "1",
+                              title: "Element 1",
+                              description: "Description 1",
+                            },
+                            {
+                              rowId: "2",
+                              title: "Element 2",
+                              description: "Description 2",
+                            },
+                          ],
+                      },
+                      {
+                        title: "Section 2",
+                        rows:
+                          [
+                            {
+                              rowId: "3",
+                              title: "Element 3",
+                              description: "Description 3",
+                            },
+                            {
+                              rowId: "4",
+                              title: "Element 4",
+                              description: "Description 4",
+                            },
+                          ],
+                      },
+                    ]
+              required:
+                - to
+                - filename
+                - file
+
+      operationId: ""
+      responses:
+        default:
+          description: Default error sample response
+      tags: ["Sends"]
+  /api/sendButtons:
+    post:
+      tags:
+        - "Sends"
+      description: "Send Messages with Buttons Reply"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                {
+                  to: 0000000000000@c.us or 00000000000-111111111@g.us,
+                  title: Title,
+                  buttons:
+                    [
+                      { url: "https://orkestral.io/", text: "Orkestral Cloud" },
+                      {
+                        phoneNumber: "+55 11 91438-0641",
+                        text: "Suporte Orkestral",
+                      },
+                      { id: "1", text: "Button 1" },
+                      { id: "2", text: "Button 2" },
+                    ],
+                  description: Description,
+                }
+      responses:
+        "200":
+          description: OK
+components: {}
+tags: []

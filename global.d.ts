@@ -4,7 +4,7 @@ import { Whatsapp } from "venom-bot";
 declare global {
 
     var $db: Knex;
-    var $whatsapp: Whatsapp | Promise<Whatsapp>;
+    var $whatsapp: Whatsapp;
 
     enum TB {
         TB_TABELA = "TB_TABELA"

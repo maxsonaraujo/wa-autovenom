@@ -1,0 +1,110 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API WA-AUTOVENOM",
+    "version": "1.0.0",
+    "description": "API de utilização da automatização de whatsapp."
+  },
+  "paths": {
+    "/api/webhook": {
+      "get": {
+        "description": "Cria um novo usuário",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    },
+    "/api/sendText": {
+      "post": {
+        "description": "Sends a WhatsApp message with the specified content to the specified phone number.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "args": {
+                    "type": "object",
+                    "properties": {
+                      "to": {
+                        "type": "string",
+                        "example": "0000000000000@c.us or 00000000000-111111111@g.us"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "to",
+                      "content"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns an object indicating the success of the message sending operation."
+          },
+          "404": {
+            "description": "Returns an object indicating the fail of the message sending operation."
+          }
+        }
+      }
+    },
+    "/api/sendFile": {
+      "post": {
+        "description": "Sends a file as a WhatsApp message to the specified phone number.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "args": {
+                    "type": "object",
+                    "properties": {
+                      "to": {
+                        "type": "string",
+                        "example": "0000000000000@c.us or 00000000000-111111111@g.us"
+                      },
+                      "filename": {
+                        "type": "string",
+                        "example": "file.pdf"
+                      },
+                      "file": {
+                        "type": "string",
+                        "example": "base64 or url"
+                      }
+                    },
+                    "required": [
+                      "to",
+                      "filename",
+                      "file"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns an object indicating the success of the message sending operation."
+          },
+          "400": {
+            "description": "Bad Request - Parameters required were not sent. Please verify if all mandatory parameters were included in the request body."
+          }
+        }
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

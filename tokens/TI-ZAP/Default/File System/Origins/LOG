@@ -1,2 +1,3 @@
-2023/03/11-02:28:18.846 8906c Creating DB /home/mjordan@alcifmais.local/Documentos/Projetos/wa-autovenom/tokens/TI-ZAP/Default/File System/Origins since it was missing.
-2023/03/11-02:28:18.988 8906c Reusing MANIFEST /home/mjordan@alcifmais.local/Documentos/Projetos/wa-autovenom/tokens/TI-ZAP/Default/File System/Origins/MANIFEST-000001
+2023/03/11-19:45:32.275 a5193 Reusing MANIFEST /home/mjordan@alcifmais.local/Documentos/Projetos/wa-autovenom/tokens/TI-ZAP/Default/File System/Origins/MANIFEST-000001
+2023/03/11-19:45:32.275 a5193 Recovering log #3
+2023/03/11-19:45:32.275 a5193 Reusing old log /home/mjordan@alcifmais.local/Documentos/Projetos/wa-autovenom/tokens/TI-ZAP/Default/File System/Origins/000003.log 

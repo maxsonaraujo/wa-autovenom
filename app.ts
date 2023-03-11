@@ -7,7 +7,13 @@ import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import { db } from './configs/database';
 import { whatsapp } from './configs/venombot';
-import swaggerSpec from './configs/swaggerDef';
+const YAML = require('yamljs');
+
+
+const swaggerDocument = YAML.load('./configs/openapi.yaml');
+// const swagger = require('./configs/openapi.yaml');
+// import swaggerSpec from './configs/swaggerDef';
+
 
 dotenv.config();
 
@@ -18,7 +24,7 @@ const PORT = process.env.SERVER_PORT;
 
 const intialize = async () => {
   global.$db = db;
-  // global.$whatsapp = await whatsapp();
+  global.$whatsapp = await whatsapp();
 
   const app: Application = express();
 
@@ -30,7 +36,7 @@ const intialize = async () => {
   app.use(express.json());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(express.static(path.join(__dirname, 'public')));
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   // Rotas da API
   app.use('/api', apiRoutes);
@@ -38,6 +44,13 @@ const intialize = async () => {
   app.use(express.static(path.join(__dirname, 'public')));
   // Rotas da aplicação web
   app.use('/', webRoutes);
+
+  // Configura uma rota para download do arquivo JSON
+  app.get('/api-docs.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', 'attachment; filename=swagger.json');
+    res.send(swaggerDocument);
+  });
 
 
 
@@ -48,7 +61,7 @@ const intialize = async () => {
     res.status(500).send('Something broke!');
   });
   // Inicializa o servidor
-  const server = app.listen(PORT ? PORT : 3000, () => {
+  const server = app.listen('0.0.0.0:' + PORT ? PORT : 3000, () => {
     //@ts-ignore
     console.log(`Servidor iniciado na porta ${server.address()?.port}`);
   });
