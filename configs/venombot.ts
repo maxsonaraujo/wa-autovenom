@@ -77,7 +77,7 @@ const sendEventWebhook = (event: string, data: any) => {
         ).then(res => {
             // console.log(res);
         }).catch(err => {
-            console.error(err);
+            // console.error(err);
         });
 }
 

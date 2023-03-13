@@ -12,13 +12,13 @@ paths:
         "200":
           description: ok
       tags:
-        - "Tests"
+        - "Utils"
   /api/sendText:
     post:
       tags:
-        - "Sends"
+        - "Sender"
       description: >-
-        Sends a WhatsApp message with the specified content to the specified
+        Sender a WhatsApp message with the specified content to the specified
         phone number.
       requestBody:
         required: true
@@ -50,8 +50,8 @@ paths:
   /api/sendFile:
     post:
       tags:
-        - "Sends"
-      description: Sends a file as a WhatsApp message to the specified phone number.
+        - "Sender"
+      description: Sender a file as a WhatsApp message to the specified phone number.
       requestBody:
         required: true
         content:
@@ -85,102 +85,136 @@ paths:
             Bad Request - Parameters required were not sent. Please verify if
             all mandatory parameters were included in the request body.
   /api/sendMenuList:
-    description: Sends menu list
+    description: Sender menu list
     post:
       summary: Send List menu
-      description: Send List menu. <br><br> This function does not work for Bussines contacts!
+      description: Send a list message menu!. <p>This will not work when being sent from or to business accounts!</p>
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              properties:
-                to:
-                  type: string
-                  example: 0000000000000@c.us or 00000000000-111111111@g.us
-                title:
-                  type: string
-                  example: Main menu
-                description:
-                  type: string
-                  example: Select to what you need help on the menu.
-                buttonText:
-                  type: string
-                  example: Menu list
-                menu:
-                  type: array
-                  example:
-                    [
-                      {
-                        title: "Section 1",
-                        rows:
-                          [
-                            {
-                              rowId: "1",
-                              title: "Element 1",
-                              description: "Description 1",
-                            },
-                            {
-                              rowId: "2",
-                              title: "Element 2",
-                              description: "Description 2",
-                            },
-                          ],
-                      },
-                      {
-                        title: "Section 2",
-                        rows:
-                          [
-                            {
-                              rowId: "3",
-                              title: "Element 3",
-                              description: "Description 3",
-                            },
-                            {
-                              rowId: "4",
-                              title: "Element 4",
-                              description: "Description 4",
-                            },
-                          ],
-                      },
-                    ]
-              required:
-                - to
-                - filename
-                - file
-
+              example:
+                {
+                  args:
+                    {
+                      to: 0000000000000@c.us or 00000000000-111111111@g.us,
+                      title: Main menu,
+                      description: Select to what you need help on the menu,
+                      buttonText: Menu list,
+                      menu:
+                        [
+                          {
+                            title: "Section 1",
+                            rows:
+                              [
+                                {
+                                  rowId: "1",
+                                  title: "Element 1",
+                                  description: "Description 1",
+                                },
+                                {
+                                  rowId: "2",
+                                  title: "Element 2",
+                                  description: "Description 2",
+                                },
+                              ],
+                          },
+                          {
+                            title: "Section 2",
+                            rows:
+                              [
+                                {
+                                  rowId: "3",
+                                  title: "Element 3",
+                                  description: "Description 3",
+                                },
+                                {
+                                  rowId: "4",
+                                  title: "Element 4",
+                                  description: "Description 4",
+                                },
+                              ],
+                          },
+                        ],
+                    },
+                }
       operationId: ""
       responses:
         default:
           description: Default error sample response
-      tags: ["Sends"]
+      tags: ["Sender"]
   /api/sendButtons:
     post:
       tags:
-        - "Sends"
-      description: "Send Messages with Buttons Reply"
+        - "Sender"
+      description: "Send Messages with Buttons Reply. <p>Remember, the limit is 3 buttons.</p>"
       requestBody:
         content:
           application/json:
             schema:
+              type: object
               example:
                 {
-                  to: 0000000000000@c.us or 00000000000-111111111@g.us,
-                  title: Title,
-                  buttons:
-                    [
-                      { url: "https://orkestral.io/", text: "Orkestral Cloud" },
-                      {
-                        phoneNumber: "+55 11 91438-0641",
-                        text: "Suporte Orkestral",
-                      },
-                      { id: "1", text: "Button 1" },
-                      { id: "2", text: "Button 2" },
-                    ],
-                  description: Description,
+                  args:
+                    {
+                      to: 0000000000000@c.us or 00000000000-111111111@g.us,
+                      title: Customer Satisfaction Survey,
+                      buttons:
+                        [
+                          { identifier: "yes", text: "Yes" },
+                          { identifier: "no", text: "No" },
+                        ],
+                      description: Have we helped you with your needs?,
+                    },
                 }
       responses:
         "200":
           description: OK
+  /api/wa/{functionName}:
+    post:
+      parameters:
+        - in: path
+          name: functionName
+          required: true
+          schema:
+            type: string
+            description: Name of the fuction that you needs.
+        
+      tags:
+        - "Utils"
+      description: "Here, you can find all the available methods that can be used within this library.<p>You can view the complete list on the oficial <a href='https://docs.orkestral.io/venom/#/?id=basic-functions'>documentation</a></p>"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                {
+                  args: "Objeto de argumentos visto na documentação do venombot.",
+                }
+      responses:
+        "200":
+          description: OK
+  /api/decryptMedia:
+    post:
+      description: "Decrypts a media message.<br>
+        Parameter: message This can be the serialized [[MessageId]] or the whole [[Messag] object. It is advised to just use the serialized message ID<br>
+        @returns Promise<[[DataURL]]><br>"
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                { args: { "message": "Check documentation in description" } }
+
+      responses:
+        "200":
+          description: OK
+      tags:
+        - "Media"
+
 components: {}
 tags: []
