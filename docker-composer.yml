@@ -1,0 +1,70 @@
+version: '3'
+services:
+  # lhc1:
+  #   image: andreaskasper/livehelperchat:3
+  #   restart: always
+  #   ports:
+  #     - 5001:80
+  #     - 6001:443
+  #   volumes:
+  #     - livegrupolistdata:/var/www/html
+  #   container_name: "livehelper-grupolis"
+  # lhc2:
+  #   image: andreaskasper/livehelperchat:3
+  #   restart: always
+  #   ports:
+  #     - 5002:80
+  #     - 6002:443
+  #   volumes:
+  #     - liveacidata:/var/www/html
+  #   container_name: "livehelper-aci"
+  wpp-rocket-grupo-lis:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: whatsapp-server
+    container_name: whatsapp-grupolis
+    environment:
+      - SERVER_PORT=3002
+      - WEBHOOK=http://spixii.alcifmais.com.br:3001
+      - WEBHOOK_QRCODE=http://spixii.alcifmais.com.br:3001/hooks/64e791a83886061d99b86f73/NGraHLaPAeAPckmuHZT59jZ8zb8FN7e6apGwg8pSGXuqydyL
+      - WEBHOOK_TOKEN=64e791a83886061d99b86f73/NGraHLaPAeAPckmuHZT59jZ8zb8FN7e6apGwg8pSGXuqydyL
+      - SESSION_NAME=grupolis
+      - CANAL_QRCODE=qrcode
+      - IPLIVE=192.168.7.238
+    ports:
+      - 3002:3002
+    volumes:
+      - whatsapp-grupolis-data:/tokens
+  # whatsapp-ti:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   image: whatsapp-server
+  #   container_name: whatsapp-ti
+  #   environment:
+  #     - WEBHOOK=http://chat.alcifmais.com.br/index.php/webhooks/incoming/open-wa
+  #     - IPLIVE=192.168.7.238
+  #   ports:
+  #     - 4002:8002
+  #   volumes:
+  #     - whatsapp-ti-data:/_IGNORE_session
+  # whatsapp-operacional:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   image: whatsapp-server
+  #   container_name: whatsapp-operacional
+  #   environment:
+  #     - WEBHOOK=http://chat.alcifmais.com.br/index.php/webhooks/incoming/whatsapp-operacional
+  #     - IPLIVE=192.168.7.238
+  #   ports:
+  #     - 4003:8002
+  #   volumes:
+  #     - whatsapp-operacional-data:/_IGNORE_session
+volumes:
+  # livegrupolistdata:
+  # liveacidata:
+  whatsapp-grupolis-data:
+  # whatsapp-ti-data:
+  # whatsapp-operacional-data:

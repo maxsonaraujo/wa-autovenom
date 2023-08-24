@@ -12,12 +12,22 @@ const router: Router = express.Router();
 
 router.post('/webhook', (req: Request, res: Response) => {
 
-  console.log("params", req.params);
-  console.log("query", req.query);
-  console.log("body", req.body);
-  console.log("headers", req.headers);
+  let hook = <IRocketMessage>req.body;
+  console.log("HOOK RECEBIDO", hook);
+  if (hook.type === "Message") {
 
-  res.json({ message: `Olá!` });
+    if (hook.messages[0]?.file) {
+      $whatsapp.sendFile(hook.visitor.token, hook.messages[0].fileUpload.publicFilePath)
+      return;
+    }
+
+    //Caso nenhum dos critérios anteriores
+    $whatsapp.sendText(hook.visitor.token, hook.messages[0].msg)
+  }
+
+  return;
+
+  // res.json({ message: `Olá!` });
 });
 
 router.post('/sendText', async (req: Request, res: Response) => {
@@ -87,6 +97,7 @@ router.post('/sendMenuList', async (req: Request, res: Response) => {
 
   try {
     await $whatsapp
+    //@ts-ignore
       .sendListMenu(to, title, description, buttonText, menu)
       .then((result) => {
         return res.json(result);
@@ -141,11 +152,11 @@ router.post('/wa/:fuctionName', async (req: Request, res: Response) => {
 
     console.log(req.params.fuctionName)
     let args = req.body.args;
-    let argsArray:Array<any>  = [];
+    let argsArray: Array<any> = [];
     for (const key in args) {
       argsArray.push(args[key]);
     }
-    
+
     console.log(argsArray);
     console.log("arrayagora");
     console.log(...argsArray);

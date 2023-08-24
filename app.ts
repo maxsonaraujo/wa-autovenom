@@ -6,7 +6,8 @@ import webRoutes from './web/routes/index';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import { db } from './configs/database';
-import { whatsapp } from './configs/venombot';
+import { whatsapp, whatsappRocket } from './configs/venombot';
+import fs from 'fs/promises';
 const YAML = require('yamljs');
 
 
@@ -18,13 +19,22 @@ const swaggerDocument = YAML.load('./configs/openapi.yaml');
 dotenv.config();
 
 const PORT = process.env.SERVER_PORT;
+const SESSION_NAME = process.env?.SESSION_NAME;
 
 
 //GLOBAIS
 
 const intialize = async () => {
+  try {
+    await fs.unlink("./tokens/" + SESSION_NAME + "/SingletonLock")
+  } catch (error) {
+
+  }
+
+
   global.$db = db;
-  global.$whatsapp = await whatsapp();
+  global.$whatsapp = await whatsappRocket();
+  global.$chatRoom = {};
 
   const app: Application = express();
 

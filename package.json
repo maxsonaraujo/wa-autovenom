@@ -43,7 +43,7 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2",
     "ts-node": "^10.9.1",
-    "venom-bot": "^4.3.7",
+    "venom-bot": "^5.0.19",
     "yamljs": "^0.3.0"
   }
 }
