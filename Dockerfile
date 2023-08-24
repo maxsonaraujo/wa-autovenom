@@ -34,7 +34,7 @@ RUN node -v
 
 RUN npm -v
 
-RUN git clone https://maxsonjordan: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@MAXSONJORDAN/wa-autovenom.git
+RUN git clone https://maxsonjordan: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@MAXSONJORDAN/wa-autovenom.git
 
 WORKDIR /wa-autovenom
 
