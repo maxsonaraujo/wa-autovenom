@@ -22,8 +22,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: whatsapp-server
-    container_name: whatsapp-grupolis
+    image: wpp-rocket-server
+    container_name: wpp-rocket-grupolis
     environment:
       - SERVER_PORT=3002
       - WEBHOOK=http://spixii.alcifmais.com.br:3001
@@ -35,7 +35,7 @@ services:
     ports:
       - 3002:3002
     volumes:
-      - whatsapp-grupolis-data:/tokens
+      - wpp-rocket-grupolis-data:/tokens
   # whatsapp-ti:
   #   build:
   #     context: .
@@ -65,6 +65,6 @@ services:
 volumes:
   # livegrupolistdata:
   # liveacidata:
-  whatsapp-grupolis-data:
+  wpp-rocket-grupolis-data:
   # whatsapp-ti-data:
   # whatsapp-operacional-data:
