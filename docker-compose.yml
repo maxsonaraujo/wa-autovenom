@@ -33,7 +33,7 @@ services:
       - CANAL_QRCODE=qrcode
       - IPLIVE=192.168.7.238
     ports:
-      - 3002:3002
+      - 3004:3002
     volumes:
       - wpp-rocket-grupolis-data:/tokens
   # whatsapp-ti:
